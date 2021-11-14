@@ -1,0 +1,52 @@
+﻿@page "/Data/Students"
+
+@using EFDataAccessLibrary
+@using EFDataAccessLibrary.Models
+
+
+@inject IStudentsData _db
+
+
+
+<h1>Students Page</h1>
+
+<h4> Students List</h4>
+
+@if (Students is null)
+{
+    <p><em>Loading . . . </em></p>
+}
+else
+{
+<table class= "table table-striped">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+             <th>Birth Date </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var Student in Students)
+        {
+            <tr>
+                <td>@Student.Name</td>
+                <td>@Student.DateOfBirth</td>
+            </tr>
+
+        }
+
+    </tbody>
+
+</table>
+}
+
+
+@code {
+    private List<Student> Students;
+
+     protected override async Task OnInitializedAsync()
+    {
+        Students = await _db.GetStudents();
+    }
+}
